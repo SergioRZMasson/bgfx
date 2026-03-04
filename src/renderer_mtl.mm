@@ -84,7 +84,15 @@ namespace bgfx { namespace mtl
 
 	static const MTLVertexFormat s_attribType[][4][2] = //type, count, normalized
 	{
-		// Uint8
+		//Int8
+		{
+			{ MTLVertexFormatChar2, MTLVertexFormatChar2Normalized },
+			{ MTLVertexFormatChar2, MTLVertexFormatChar2Normalized },
+			{ MTLVertexFormatChar3, MTLVertexFormatChar3Normalized },
+			{ MTLVertexFormatChar4, MTLVertexFormatChar4Normalized },
+		},
+
+		//Uint8
 		{
 			{ MTLVertexFormatUChar2, MTLVertexFormatUChar2Normalized },
 			{ MTLVertexFormatUChar2, MTLVertexFormatUChar2Normalized },
@@ -107,6 +115,14 @@ namespace bgfx { namespace mtl
 			{ MTLVertexFormatShort2, MTLVertexFormatShort2Normalized },
 			{ MTLVertexFormatShort3, MTLVertexFormatShort3Normalized },
 			{ MTLVertexFormatShort4, MTLVertexFormatShort4Normalized },
+		},
+
+		//UInt16
+		{
+			{ MTLVertexFormatUShort2, MTLVertexFormatUShort2Normalized },
+			{ MTLVertexFormatUShort2, MTLVertexFormatUShort2Normalized },
+			{ MTLVertexFormatUShort3, MTLVertexFormatUShort3Normalized },
+			{ MTLVertexFormatUShort4, MTLVertexFormatUShort4Normalized },
 		},
 
 		//Half
@@ -3176,6 +3192,8 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 				m_ptrStencil = s_renderMtl->m_device.newTextureWithDescriptor(desc);
 			}
 
+			MTL_RELEASE(desc, 0);
+
 			uint8_t* temp = NULL;
 			if (convert)
 			{
@@ -3888,6 +3906,7 @@ BX_PRAGMA_DIAGNOSTIC_POP();
 	void CommandQueueMtl::init(Device _device)
 	{
 		m_commandQueue = _device.newCommandQueue();
+		g_internalData.commandQueue = m_commandQueue.m_obj;
 		m_framesSemaphore.post(BGFX_CONFIG_MAX_FRAME_LATENCY);
 	}
 
